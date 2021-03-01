@@ -22,6 +22,24 @@
 <div class="container m-3">
     <h3>User account page</h3>
 
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Availability</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${items}">
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.price}"></td>
+            <td th:text="${item.availability}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+
 </div>
 
 

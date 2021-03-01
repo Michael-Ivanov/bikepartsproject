@@ -2,12 +2,13 @@ package com.bikeparsing.bikepartsapp.dao;
 
 import com.bikeparsing.bikepartsapp.entity.Item;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Repository
 public class InMemoryDaoImpl implements ProductDAO {
 
     private List<Item> items = new ArrayList<>();
