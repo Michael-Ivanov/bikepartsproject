@@ -11,35 +11,35 @@ import java.util.List;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private final ProductDAO productDAO;
+    private final ProductDAO dao;
 
     @Autowired
-    public ProductServiceImpl(@Qualifier(value = "jdbcDaoImpl") ProductDAO productDAO) {
-        this.productDAO = productDAO;
+    public ProductServiceImpl(@Qualifier(value = "jpaProductDaoImpl") ProductDAO dao) {
+        this.dao = dao;
     }
 
     @Override
     public List<Item> getAll() {
-        return productDAO.getAll();
+        return dao.getAll();
     }
 
     @Override
     public List<Item> getAllById(int id) {
-        return productDAO.getAllById(id);
+        return dao.getAllById(id);
     }
 
     @Override
     public Item getById(int id) {
-        return productDAO.getById(id);
+        return dao.getById(id);
     }
 
     @Override
     public void save(Item item) {
-        productDAO.save(item);
+        dao.save(item);
     }
 
     @Override
     public void deleteById(int id) {
-        productDAO.deleteById(id);
+        dao.deleteById(id);
     }
 }
