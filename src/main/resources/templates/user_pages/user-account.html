@@ -20,28 +20,41 @@
 </header>
 
 <div class="container m-3">
-    <h3>User account page</h3>
+    <h3 class="mb-5">User account page</h3>
+
+    <form th:action="@{/user/add_item}" method="POST" class="row mb-3">
+        <div class="col-auto">
+            <input type="text" name="itemUrl" class="form-control"/>
+        </div>
+        <div class="col-auto">
+            <input type="submit" value="Add Item" class="btn btn-primary"/>
+        </div>
+    </form>
+
 
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
         <tr>
             <th>Name</th>
+            <th>Date</th>
             <th>Price</th>
             <th>Availability</th>
+            <th>URL</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="item : ${items}">
             <td th:text="${item.name}"></td>
+            <td th:text="${item.date}"></td>
             <td th:text="${item.price}"></td>
             <td th:text="${item.availability}"></td>
+            <td th:text="${item.itemUrl}"></td>
         </tr>
         </tbody>
     </table>
 
 
 </div>
-
 
 
 </body>
