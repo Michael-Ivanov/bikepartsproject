@@ -1,22 +1,36 @@
 package com.bikeparsing.bikepartsapp.entity;
 
+import javax.persistence.*;
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "items")
 public class Item {
 
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "item_name")
     private String name;
 
+    @Column(name = "add_date")
+    private LocalDate date;
+
+    @Column(name = "price")
     private String price;
 
+    @Column(name = "availability")
     private String availability;
 
-    public Item() {
-    }
+    @Column(name = "item_url")
+    private String itemUrl;
 
-    public Item(String name, String price, String availability) {
-        this.name = name;
-        this.price = price;
-        this.availability = availability;
+    @Column(name = "user_id")
+    private int userId;
+
+    public Item() {
     }
 
     public Item(int id, String name, String price, String availability) {
@@ -25,6 +39,8 @@ public class Item {
         this.price = price;
         this.availability = availability;
     }
+
+
 
     public int getId() {
         return id;
@@ -42,6 +58,14 @@ public class Item {
         this.name = name;
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
     public String getPrice() {
         return price;
     }
@@ -56,6 +80,22 @@ public class Item {
 
     public void setAvailability(String availability) {
         this.availability = availability;
+    }
+
+    public String getItemUrl() {
+        return itemUrl;
+    }
+
+    public void setItemUrl(String itemUrl) {
+        this.itemUrl = itemUrl;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     @Override

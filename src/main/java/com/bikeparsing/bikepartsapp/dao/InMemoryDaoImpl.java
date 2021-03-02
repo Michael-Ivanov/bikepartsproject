@@ -28,6 +28,11 @@ public class InMemoryDaoImpl implements ProductDAO {
     }
 
     @Override
+    public List<Item> getAllById(int id) {
+        return null;
+    }
+
+    @Override
     public Item getById(int id) {
         return getItemById(id);
     }

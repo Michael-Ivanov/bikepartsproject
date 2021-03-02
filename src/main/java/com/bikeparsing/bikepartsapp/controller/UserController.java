@@ -3,11 +3,14 @@ package com.bikeparsing.bikepartsapp.controller;
 import com.bikeparsing.bikepartsapp.entity.Item;
 import com.bikeparsing.bikepartsapp.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.lang.reflect.Field;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -22,9 +25,13 @@ public class UserController {
     }
 
     @GetMapping("/account")
-    public String userAccount(Model model) {
+    public String userAccount(Authentication authentication,
+                              Model model) {
 
-        List<Item> items = productService.getAll();
+        String name = authentication.getName();
+
+        System.out.println(name);
+        List<Item> items = productService.getAllById(1);
         model.addAttribute("items", items);
 
         return "/user_pages/user-account";

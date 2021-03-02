@@ -8,6 +8,8 @@ public interface ProductService {
 
     List<Item> getAll();
 
+    List<Item> getAllById(int id);
+
     Item getById(int id);
 
     void save(Item item);
