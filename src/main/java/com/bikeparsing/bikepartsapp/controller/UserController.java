@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -42,9 +43,13 @@ public class UserController {
         return "/user_pages/user-account";
     }
 
-    @GetMapping("/add_item")
-    public String addItem() {
-        return "redirect:/user/account";
+    @PostMapping("/add_item")
+    public String addItem(Model model) {
+
+        Item item = new Item();
+        model.addAttribute("item", item);
+
+        return "/user_pages/add-new-item";
     }
 
 }
