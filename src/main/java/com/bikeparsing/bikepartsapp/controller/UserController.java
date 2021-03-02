@@ -1,7 +1,9 @@
 package com.bikeparsing.bikepartsapp.controller;
 
 import com.bikeparsing.bikepartsapp.entity.Item;
+import com.bikeparsing.bikepartsapp.entity.User;
 import com.bikeparsing.bikepartsapp.service.ProductService;
+import com.bikeparsing.bikepartsapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -16,10 +18,12 @@ import java.util.List;
 public class UserController {
 
     private ProductService productService;
+    private UserService userService;
 
     @Autowired
-    public UserController(ProductService productService) {
+    public UserController(ProductService productService, UserService userService) {
         this.productService = productService;
+        this.userService = userService;
     }
 
     @GetMapping("/account")
@@ -27,11 +31,20 @@ public class UserController {
                               Model model) {
 
         String name = authentication.getName();
-
         System.out.println(name);
-        List<Item> items = productService.getAllById(1);
+        User user = userService.getByName(name);
+        System.out.println("Retrieved user: " + user);
+        int id = user.getId();
+
+        List<Item> items = productService.getAllById(id);
         model.addAttribute("items", items);
 
         return "/user_pages/user-account";
     }
+
+    @GetMapping("/add_item")
+    public String addItem() {
+        return "redirect:/user/account";
+    }
+
 }
