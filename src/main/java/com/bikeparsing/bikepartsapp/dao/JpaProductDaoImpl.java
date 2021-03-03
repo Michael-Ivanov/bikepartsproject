@@ -36,7 +36,7 @@ public class JpaProductDaoImpl implements ProductDAO {
 
     @Override
     public void save(Item item) {
-
+        entityManager.merge(item);
     }
 
     @Override

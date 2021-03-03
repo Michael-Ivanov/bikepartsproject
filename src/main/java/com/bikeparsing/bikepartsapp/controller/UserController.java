@@ -56,6 +56,8 @@ public class UserController {
         item.setUserId(id);
         System.out.println(item);
 
+        productService.save(item);
+
         return "redirect:/user/account";
     }
 
