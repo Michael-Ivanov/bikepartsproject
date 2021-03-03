@@ -40,6 +40,7 @@
             <th>Price</th>
             <th>Availability</th>
             <th>URL</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -49,6 +50,9 @@
             <td th:text="${item.price}"></td>
             <td th:text="${item.availability}"></td>
             <td th:text="${item.itemUrl}"></td>
+            <td><a th:href="@{/user/update-item(itemId = ${item.id})}"
+                   class="btn btn-primary btn-sm">Update</a>
+            </td>
         </tr>
         </tbody>
     </table>

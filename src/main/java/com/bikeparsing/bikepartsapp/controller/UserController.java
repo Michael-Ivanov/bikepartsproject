@@ -45,10 +45,28 @@ public class UserController {
         return "/user-pages/add-new-item";
     }
 
-    @PostMapping("save-item")
-    public String saveItem(@RequestParam Map<String, String> params,
+//    @PostMapping("/save-item")
+//    public String saveItem(@RequestParam Map<String, String> params,
+//                           Authentication auth) {
+//
+//        Item item = makeItemFromParams(params);
+//
+//        // todo: in case of updating item we need @RequestBody, fix
+//
+//        String name = auth.getName();
+//        int id = getUserId(name);
+//
+//        item.setUserId(id);
+//        System.out.println(item);
+//
+//        productService.save(item);
+//
+//        return "redirect:/user/homepage";
+//    }
+
+    @PostMapping("/save-item")
+    public String saveItem(Item item,
                            Authentication auth) {
-        Item item = getItemFromParams(params);
 
         String name = auth.getName();
         int id = getUserId(name);
@@ -61,7 +79,15 @@ public class UserController {
         return "redirect:/user/homepage";
     }
 
-    private Item getItemFromParams(Map<String, String> params) {
+    @GetMapping("/update-item")
+    public String updateItem(@RequestParam("itemId") int id,
+                             Model model) {
+        Item item = productService.getById(id);
+        model.addAttribute("item", item);
+        return "/user-pages/add-new-item"; // todo: refactor name (to 'item-form', or something like that)
+    }
+
+    private Item makeItemFromParams(Map<String, String> params) {
         return new Item(
                 params.get("name"),
                 params.get("price"),

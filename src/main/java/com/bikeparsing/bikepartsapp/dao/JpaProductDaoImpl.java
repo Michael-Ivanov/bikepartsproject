@@ -31,7 +31,7 @@ public class JpaProductDaoImpl implements ProductDAO {
 
     @Override
     public Item getById(int id) {
-        return null;
+        return entityManager.find(Item.class, id);
     }
 
     @Override
