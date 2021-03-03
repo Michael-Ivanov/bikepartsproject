@@ -14,15 +14,21 @@
     <title>Logged User</title>
 </head>
 <body>
-<div sec:authorize="isAuthenticated()" class="alert alert-info p-2" >
-    You are logged as <span sec:authentication="name" ></span>
-    <form th:action="@{/logout}" method="post" >
-        <input type="submit" value="Logout" class="btn btn-outline-primary mt-2">
+<div sec:authorize="isAuthenticated()" class="alert alert-info p-2">
+
+    <form th:action="@{/logout}" method="post" class="row">
+        <label for="logout" class="col-auto col-form-label">
+            You are logged as <span sec:authentication="name"></span>
+        </label>
+        <input type="submit" value="Logout" id="logout" class="btn btn-outline-primary">
     </form>
+
 </div>
-<div sec:authorize="isAnonymous()" >
-    <p class="alert-info alert-danger p-2">This page is not available for unauthorized users. Please log in.</p>
-    <a th:href="@{/login}" class="btn btn-primary">Login</a>
+<div sec:authorize="isAnonymous()">
+    <div class="row">
+        <p class="col-auto col-form-label">This page is not available for unauthorized users. Please log in:</p>
+        <a th:href="@{/login}" class="btn btn-primary">Login</a>
+    </div>
 </div>
 <hr>
 </body>

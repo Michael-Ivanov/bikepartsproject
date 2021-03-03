@@ -18,8 +18,8 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    private ProductService productService;
-    private UserService userService;
+    private final ProductService productService;
+    private final UserService userService;
 
     @Autowired
     public UserController(ProductService productService, UserService userService) {
@@ -46,8 +46,6 @@ public class UserController {
     public String saveItem(Item item) {
 
         item.setUserId(getAuthUserId());
-        System.out.println(item);
-
         productService.save(item);
 
         return "redirect:/user/homepage";
