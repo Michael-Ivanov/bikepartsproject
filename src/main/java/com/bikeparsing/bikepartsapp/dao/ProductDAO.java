@@ -8,7 +8,7 @@ public interface ProductDAO {
 
     List<Item> getAll();
 
-    List<Item> getAllById(int id);
+    List<Item> getAllByUserId(int id);
 
     Item getById(int id);
 

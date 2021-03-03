@@ -25,8 +25,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Item> getAllById(int id) {
-        return dao.getAllById(id);
+    public List<Item> getAllByUserId(int id) {
+        return dao.getAllByUserId(id);
     }
 
     @Override

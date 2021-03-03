@@ -26,26 +26,26 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/account")
+    @GetMapping("/homepage")
     public String userAccount(Authentication auth,
                               Model model) {
 
         String userName = auth.getName();
         int id = getUserId(userName);
 
-        List<Item> items = productService.getAllById(id);
+        List<Item> items = productService.getAllByUserId(id);
         model.addAttribute("items", items);
 
-        return "/user_pages/user-account";
+        return "/user-pages/user-home-page";
     }
 
-    @PostMapping("/add_item")
+    @PostMapping("/add-item")
     public String addItem(Model model) {
         model.addAttribute("item",  new Item());
-        return "/user_pages/add-new-item";
+        return "/user-pages/add-new-item";
     }
 
-    @PostMapping("save_item")
+    @PostMapping("save-item")
     public String saveItem(@RequestParam Map<String, String> params,
                            Authentication auth) {
         Item item = getItemFromParams(params);
@@ -58,7 +58,7 @@ public class UserController {
 
         productService.save(item);
 
-        return "redirect:/user/account";
+        return "redirect:/user/homepage";
     }
 
     private Item getItemFromParams(Map<String, String> params) {

@@ -14,12 +14,12 @@
 </head>
 <body>
 <header>
-    <div th:include="/users/logged-user"></div>
+    <div th:include="/user-pages/logged-user"></div>
 </header>
 
 <div class="container">
 
-    <form th:action="@{/user/save_item}" th:object="${item}" method="POST">
+    <form th:action="@{/user/save-item}" th:object="${item}" method="POST">
         <div class="row mb-3">
             <label for="name" class="col-sm-1 col-form-label">Name:</label>
             <input type="text" th:field="*{name}" name="name" id="name" class="col-sm-3 form-control"/>

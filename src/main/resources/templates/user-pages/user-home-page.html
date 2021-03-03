@@ -16,13 +16,13 @@
 <body>
 
 <header>
-    <div th:include="/users/logged-user"></div>
+    <div th:include="/user-pages/logged-user"></div>
 </header>
 
 <div class="container m-3">
     <h3 class="mb-5">User account page</h3>
 
-    <form th:action="@{/user/add_item}" method="POST" class="row mb-3">
+    <form th:action="@{/user/add-item}" method="POST" class="row mb-3">
         <div class="col-auto">
             <input type="text" name="itemUrl" class="form-control"/>
         </div>
