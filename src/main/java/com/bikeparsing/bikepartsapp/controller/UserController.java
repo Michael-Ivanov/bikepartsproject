@@ -8,11 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -28,14 +27,11 @@ public class UserController {
     }
 
     @GetMapping("/account")
-    public String userAccount(Authentication authentication,
+    public String userAccount(Authentication auth,
                               Model model) {
 
-        String name = authentication.getName();
-        System.out.println(name);
-        User user = userService.getByName(name);
-        System.out.println("Retrieved user: " + user);
-        int id = user.getId();
+        String userName = auth.getName();
+        int id = getUserId(userName);
 
         List<Item> items = productService.getAllById(id);
         model.addAttribute("items", items);
@@ -45,11 +41,34 @@ public class UserController {
 
     @PostMapping("/add_item")
     public String addItem(Model model) {
-
-        Item item = new Item();
-        model.addAttribute("item", item);
-
+        model.addAttribute("item",  new Item());
         return "/user_pages/add-new-item";
     }
 
+    @PostMapping("save_item")
+    public String saveItem(@RequestParam Map<String, String> params,
+                           Authentication auth) {
+        Item item = getItemFromParams(params);
+
+        String name = auth.getName();
+        int id = getUserId(name);
+
+        item.setUserId(id);
+        System.out.println(item);
+
+        return "redirect:/user/account";
+    }
+
+    private Item getItemFromParams(Map<String, String> params) {
+        return new Item(
+                params.get("name"),
+                params.get("price"),
+                params.get("itemUrl")
+        );
+    }
+
+    private int getUserId(String name) {
+        User user = userService.getByName(name);
+        return user.getId();
+    }
 }

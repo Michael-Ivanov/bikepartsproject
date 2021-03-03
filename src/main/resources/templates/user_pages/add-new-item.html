@@ -19,21 +19,21 @@
 
 <div class="container">
 
-    <form th:action="saveItem" method="POST">
+    <form th:action="@{/user/save_item}" th:object="${item}" method="POST">
         <div class="row mb-3">
             <label for="name" class="col-sm-1 col-form-label">Name:</label>
-            <input type="text" name="name" id="name" class="col-sm-3 form-control"/>
+            <input type="text" th:field="*{name}" name="name" id="name" class="col-sm-3 form-control"/>
         </div>
         <div class="row mb-3">
             <label for="price" class="col-sm-1 col-form-label">Price:</label>
-            <input type="text" name="price" id="price" class="col-sm-3 form-control"/>
+            <input type="text" th:field="*{price}" name="price" id="price" class="col-sm-3 form-control"/>
         </div>
         <div class="row mb-3">
             <label for="url" class="col-sm-1 col-form-label">URL:</label>
-            <input type="text" name="url" id="url" class="col-sm-3 form-control"/>
+            <input type="text" th:field="*{itemUrl}" name="url" id="url" class="col-sm-3 form-control"/>
         </div>
 
-        <input type="submit" value="Add" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary">Add new item</button>
     </form>
 
 </div>
