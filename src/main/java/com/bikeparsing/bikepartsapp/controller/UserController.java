@@ -5,13 +5,14 @@ import com.bikeparsing.bikepartsapp.entity.User;
 import com.bikeparsing.bikepartsapp.service.ProductService;
 import com.bikeparsing.bikepartsapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -27,13 +28,9 @@ public class UserController {
     }
 
     @GetMapping("/homepage")
-    public String userAccount(Authentication auth,
-                              Model model) {
+    public String userAccount(Model model) {
 
-        String userName = auth.getName();
-        int id = getUserId(userName);
-
-        List<Item> items = productService.getAllByUserId(id);
+        List<Item> items = productService.getAllByUserId(getAuthUserId());
         model.addAttribute("items", items);
 
         return "/user-pages/user-home-page";
@@ -45,33 +42,10 @@ public class UserController {
         return "/user-pages/add-new-item";
     }
 
-//    @PostMapping("/save-item")
-//    public String saveItem(@RequestParam Map<String, String> params,
-//                           Authentication auth) {
-//
-//        Item item = makeItemFromParams(params);
-//
-//        // todo: in case of updating item we need @RequestBody, fix
-//
-//        String name = auth.getName();
-//        int id = getUserId(name);
-//
-//        item.setUserId(id);
-//        System.out.println(item);
-//
-//        productService.save(item);
-//
-//        return "redirect:/user/homepage";
-//    }
+    @PostMapping("/save-item") // todo: doesn't save default values for date and availability
+    public String saveItem(Item item) {
 
-    @PostMapping("/save-item")
-    public String saveItem(Item item,
-                           Authentication auth) {
-
-        String name = auth.getName();
-        int id = getUserId(name);
-
-        item.setUserId(id);
+        item.setUserId(getAuthUserId());
         System.out.println(item);
 
         productService.save(item);
@@ -87,16 +61,14 @@ public class UserController {
         return "/user-pages/add-new-item"; // todo: refactor name (to 'item-form', or something like that)
     }
 
-    private Item makeItemFromParams(Map<String, String> params) {
-        return new Item(
-                params.get("name"),
-                params.get("price"),
-                params.get("itemUrl")
-        );
-    }
 
-    private int getUserId(String name) {
-        User user = userService.getByName(name);
-        return user.getId();
+    private int getAuthUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String name = authentication.getName();
+            User user = userService.getByName(name);
+            return user.getId();
+        }
+        throw new RuntimeException("User not authenticated");
     }
 }
