@@ -42,7 +42,7 @@ public class UserController {
         return "/user-pages/add-new-item";
     }
 
-    @PostMapping("/save-item") // todo: doesn't save default values for date and availability
+    @PostMapping("/save-item")
     public String saveItem(Item item) {
 
         item.setUserId(getAuthUserId());
