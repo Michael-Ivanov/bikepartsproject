@@ -33,14 +33,20 @@ public class Item {
     public Item() {
     }
 
+    public Item(String name, String price, String availability, String itemUrl) {
+        this.name = name;
+        this.date = LocalDate.now();
+        this.price = price;
+        this.availability = availability;
+        this.itemUrl = itemUrl;
+    }
+
     public Item(int id, String name, String price, String availability) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.availability = availability;
     }
-
-
 
     public int getId() {
         return id;
