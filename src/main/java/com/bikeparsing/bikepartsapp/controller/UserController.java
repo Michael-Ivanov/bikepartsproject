@@ -59,6 +59,12 @@ public class UserController {
         return "/user-pages/add-new-item"; // todo: refactor name (to 'item-form', or something like that)
     }
 
+    @GetMapping("/delete-item")
+    public String deleteItem(@RequestParam("itemId") int id) {
+        productService.deleteById(id);
+        return "redirect:/user/homepage";
+    }
+
 
     private int getAuthUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -67,6 +73,6 @@ public class UserController {
             User user = userService.getByName(name);
             return user.getId();
         }
-        throw new RuntimeException("User not authenticated");
+        throw new RuntimeException("User not authenticated.");
     }
 }
