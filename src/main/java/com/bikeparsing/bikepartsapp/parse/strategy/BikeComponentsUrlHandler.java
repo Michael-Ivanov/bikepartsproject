@@ -4,21 +4,22 @@ import com.bikeparsing.bikepartsapp.entity.Item;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Component
 public class BikeComponentsUrlHandler implements UrlHandler {
 
+    private static final String HUB_URL = "https://www.bike-components.de/en/DT-Swiss/350-Disc-6-bolt-Front-Hub-p42225/";
+    private static final String TYRE_URL = "https://www.bike-components.de/en/Schwalbe/Nobby-Nic-Evolution-ADDIX-Speedgrip-SnakeSkin-29-Folding-Tyre-p57253/";
+
+
     public static void main(String[] args) {
-        new BikeComponentsUrlHandler().parsePage(
-                "https://www.bike-components.de/en/Chris-King/ISO-6-bolt-Disc-Rear-Hub-p63427/");
+        new BikeComponentsUrlHandler().parsePage(TYRE_URL);
     }
 
     @Override
@@ -27,28 +28,34 @@ public class BikeComponentsUrlHandler implements UrlHandler {
 
         Document doc = getDocument(url);
 
-        // get array of elements with tag "option" containing argument "data-price"
-        Elements options = doc.select("option[data-price]");
+        // get root options element by id
+        Element moduleProductDetailOptions
+                = doc.select("div#module-product-detail-options").first();
 
-        String name = doc.select("article").attr("data-product-name");
+        // get elements with attribute "data-price" from root-options
+        Elements options = moduleProductDetailOptions.getElementsByAttribute("data-price");
 
         List<Item> itemOptions = new ArrayList<>();
 
         for (Element option : options) {
-            System.out.println(name);
-            String price = option.attr("data-price");
-            String[] modelAvail = option.text().split("\\|");
-            System.out.println(Arrays.toString(modelAvail));
-            System.out.println(" >> " + price);
-//            Item item = new Item(
-//                    name,
-//                    price,
-//
-//            )
+            System.out.println(option);
+            System.out.println("Price: " + option.attr("data-price"));
+            System.out.println("Availability: " + option.attr("data-stock"));
+            System.out.println("Option: " + trimText(option.text()));
+
+            // todo: add String option field to Item class. Get this option from element.
+
         }
 
-
         return null;
+    }
+
+    private String trimText(String text) {
+        if (text.contains("|")) {
+            System.out.println("test:>> " + text);
+            text = text.split("\\|")[0].trim();
+        }
+        return text;
     }
 
     private Document getDocument(String url) {
