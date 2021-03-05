@@ -2,6 +2,7 @@ package com.bikeparsing.bikepartsapp.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "items")
@@ -14,6 +15,10 @@ public class Item {
 
     @Column(name = "item_name")
     private String name;
+
+    @OneToMany(mappedBy = "item",
+            cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    private List<Option> options;
 
     @Column(name = "add_date")
     private LocalDate date;
@@ -62,6 +67,14 @@ public class Item {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Option> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<Option> options) {
+        this.options = options;
     }
 
     public LocalDate getDate() {
