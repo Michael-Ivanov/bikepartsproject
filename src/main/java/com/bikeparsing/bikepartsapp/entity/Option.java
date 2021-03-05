@@ -24,6 +24,11 @@ public class Option {
     public Option() {
     }
 
+    public Option(String option, String availability) {
+        this.option = option;
+        this.availability = availability;
+    }
+
     public int getId() {
         return id;
     }
@@ -54,5 +59,14 @@ public class Option {
 
     public void setItem(Item item) {
         this.item = item;
+    }
+
+    @Override
+    public String toString() {
+        return "Option{" +
+                "id=" + id +
+                ", option='" + option + '\'' +
+                ", availability='" + availability + '\'' +
+                '}';
     }
 }

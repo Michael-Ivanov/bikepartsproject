@@ -17,7 +17,6 @@ public class BikeComponentsUrlHandler implements UrlHandler {
     private static final String HUB_URL = "https://www.bike-components.de/en/DT-Swiss/350-Disc-6-bolt-Front-Hub-p42225/";
     private static final String TYRE_URL = "https://www.bike-components.de/en/Schwalbe/Nobby-Nic-Evolution-ADDIX-Speedgrip-SnakeSkin-29-Folding-Tyre-p57253/";
 
-
     public static void main(String[] args) {
         new BikeComponentsUrlHandler().parsePage(TYRE_URL);
     }

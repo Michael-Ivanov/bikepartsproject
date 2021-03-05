@@ -2,6 +2,7 @@ package com.bikeparsing.bikepartsapp.entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,7 @@ public class Item {
     @Column(name = "item_name")
     private String name;
 
-    @OneToMany(mappedBy = "item",
+    @OneToMany( fetch = FetchType.EAGER, mappedBy = "item",
             cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private List<Option> options;
 
@@ -25,9 +26,6 @@ public class Item {
 
     @Column(name = "price")
     private String price;
-
-    @Column(name = "availability")
-    private String availability;
 
     @Column(name = "item_url")
     private String itemUrl;
@@ -42,7 +40,14 @@ public class Item {
         this.name = name;
         this.date = LocalDate.now();
         this.price = price;
-        this.availability = availability;
+        this.itemUrl = itemUrl;
+    }
+
+    public Item(String name, List<Option> options, LocalDate date, String price, String itemUrl) {
+        this.name = name;
+        addOptions(options);
+        this.date = date;
+        this.price = price;
         this.itemUrl = itemUrl;
     }
 
@@ -50,7 +55,6 @@ public class Item {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.availability = availability;
     }
 
     public int getId() {
@@ -77,6 +81,25 @@ public class Item {
         this.options = options;
     }
 
+    private void addOptions(List<Option> addOptions) {
+        if (options == null) {
+            System.out.println("There was no List!!!");
+            options = new ArrayList<>();
+        }
+        for (Option option : addOptions) {
+            options.add(option);
+            option.setItem(this);
+        }
+    }
+
+    public void add(Option option) {
+        if (options == null) {
+            options = new ArrayList<>();
+        }
+        options.add(option);
+        option.setItem(this);
+    }
+
     public LocalDate getDate() {
         return date;
     }
@@ -91,14 +114,6 @@ public class Item {
 
     public void setPrice(String price) {
         this.price = price;
-    }
-
-    public String getAvailability() {
-        return availability;
-    }
-
-    public void setAvailability(String availability) {
-        this.availability = availability;
     }
 
     public String getItemUrl() {
@@ -122,9 +137,9 @@ public class Item {
         return "Item{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", options=" + options +
                 ", date=" + date +
                 ", price='" + price + '\'' +
-                ", availability='" + availability + '\'' +
                 ", itemUrl='" + itemUrl + '\'' +
                 ", userId=" + userId +
                 '}';

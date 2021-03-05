@@ -41,9 +41,6 @@ public class ProductServiceImpl implements ProductService {
         if (item.getDate() == null) {
             item.setDate(LocalDate.now());
         }
-        if (item.getAvailability().isEmpty() || item.getAvailability() == null) {
-            item.setAvailability("def avail");
-        }
         dao.save(item);
     }
 
