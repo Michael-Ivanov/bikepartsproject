@@ -14,6 +14,9 @@ public class Option {
     @Column(name = "option")
     private String option;
 
+    @Column(name = "price")
+    private String price;
+
     @Column(name = "availability")
     private String availability;
 
@@ -45,6 +48,14 @@ public class Option {
         this.option = option;
     }
 
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
     public String getAvailability() {
         return availability;
     }
@@ -66,7 +77,9 @@ public class Option {
         return "Option{" +
                 "id=" + id +
                 ", option='" + option + '\'' +
+                ", price='" + price + '\'' +
                 ", availability='" + availability + '\'' +
+                ", item=" + item +
                 '}';
     }
 }
