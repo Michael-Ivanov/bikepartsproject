@@ -21,6 +21,9 @@ public class Item {
             cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private List<Option> options;
 
+    @Column(name = "selected_option")
+    private int selectedOptionId;
+
     @Column(name = "add_date")
     private LocalDate date;
 
@@ -92,6 +95,14 @@ public class Item {
         }
         options.add(option);
         option.setItem(this);
+    }
+
+    public int getSelectedOptionId() {
+        return selectedOptionId;
+    }
+
+    public void setSelectedOptionId(int selectedOption) {
+        this.selectedOptionId = selectedOption;
     }
 
     public LocalDate getDate() {
