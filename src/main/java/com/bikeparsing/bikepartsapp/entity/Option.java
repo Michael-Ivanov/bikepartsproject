@@ -27,8 +27,9 @@ public class Option {
     public Option() {
     }
 
-    public Option(String option, String availability) {
+    public Option(String option, String price, String availability) {
         this.option = option;
+        this.price = price;
         this.availability = availability;
     }
 
@@ -79,7 +80,6 @@ public class Option {
                 ", option='" + option + '\'' +
                 ", price='" + price + '\'' +
                 ", availability='" + availability + '\'' +
-                ", item=" + item +
                 '}';
     }
 }

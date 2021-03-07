@@ -40,15 +40,9 @@ public class UserController {
     }
 
     @PostMapping("/add-item")
-    public String addItem(@RequestParam("itemUrl") String itemUrl) {
-
-        urlHandler.parsePage(itemUrl);
-
-
-
-
-
-        return "/user-pages/add-new-item";
+    public void addItem(@RequestParam("itemUrl") String itemUrl) {
+        Item item = urlHandler.parsePage(itemUrl);
+        saveItem(item);
     }
 
     @PostMapping("/save-item")
