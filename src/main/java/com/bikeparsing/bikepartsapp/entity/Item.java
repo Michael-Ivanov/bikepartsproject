@@ -24,9 +24,6 @@ public class Item {
     @Column(name = "add_date")
     private LocalDate date;
 
-    @Column(name = "price")
-    private String price;
-
     @Column(name = "item_url")
     private String itemUrl;
 
@@ -36,25 +33,22 @@ public class Item {
     public Item() {
     }
 
-    public Item(String name, String price, String availability, String itemUrl) {
+    public Item(String name, String availability, String itemUrl) {
         this.name = name;
         this.date = LocalDate.now();
-        this.price = price;
         this.itemUrl = itemUrl;
     }
 
-    public Item(String name, List<Option> options, LocalDate date, String price, String itemUrl) {
+    public Item(String name, List<Option> options, LocalDate date, String itemUrl) {
         this.name = name;
         addOptions(options);
         this.date = date;
-        this.price = price;
         this.itemUrl = itemUrl;
     }
 
-    public Item(int id, String name, String price, String availability) {
+    public Item(int id, String name, String availability) {
         this.id = id;
         this.name = name;
-        this.price = price;
     }
 
     public int getId() {
@@ -108,14 +102,6 @@ public class Item {
         this.date = date;
     }
 
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
     public String getItemUrl() {
         return itemUrl;
     }
@@ -139,7 +125,6 @@ public class Item {
                 ", name='" + name + '\'' +
                 ", options=" + options +
                 ", date=" + date +
-                ", price='" + price + '\'' +
                 ", itemUrl='" + itemUrl + '\'' +
                 ", userId=" + userId +
                 '}';

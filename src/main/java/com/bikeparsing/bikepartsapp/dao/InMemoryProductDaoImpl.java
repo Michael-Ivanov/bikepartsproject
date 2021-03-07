@@ -14,11 +14,11 @@ public class InMemoryProductDaoImpl implements ProductDAO {
 
     @PostConstruct
     private void populateList() {
-        items.add(new Item(1, "tyre", "33", "available"));
-        items.add(new Item(2, "stem", "10", "available"));
-        items.add(new Item(3, "fork", "300", "5 to 7 days"));
-        items.add(new Item(4, "spokes", "20", "available"));
-        items.add(new Item(5, "chain", "15", "not available"));
+//        items.add(new Item(1, "tyre", "33", "available"));
+//        items.add(new Item(2, "stem", "10", "available"));
+//        items.add(new Item(3, "fork", "300", "5 to 7 days"));
+//        items.add(new Item(4, "spokes", "20", "available"));
+//        items.add(new Item(5, "chain", "15", "not available"));
     }
 
     @Override

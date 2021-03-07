@@ -42,7 +42,6 @@ public class BikeComponentsUrlHandler implements UrlHandler {
             System.out.println("Availability: " + option.attr("data-stock"));
             System.out.println("Option: " + trimText(option.text()));
 
-            // todo: add String option field to Item class. Get this option from element.
 
         }
 

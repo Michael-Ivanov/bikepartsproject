@@ -2,6 +2,7 @@ package com.bikeparsing.bikepartsapp.controller;
 
 import com.bikeparsing.bikepartsapp.entity.Item;
 import com.bikeparsing.bikepartsapp.entity.User;
+import com.bikeparsing.bikepartsapp.parse.strategy.UrlHandler;
 import com.bikeparsing.bikepartsapp.service.ProductService;
 import com.bikeparsing.bikepartsapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,13 @@ public class UserController {
 
     private final ProductService productService;
     private final UserService userService;
+    private final UrlHandler urlHandler;
 
     @Autowired
-    public UserController(ProductService productService, UserService userService) {
+    public UserController(ProductService productService, UserService userService, UrlHandler urlHandler) {
         this.productService = productService;
         this.userService = userService;
+        this.urlHandler = urlHandler;
     }
 
     @GetMapping("/homepage")
@@ -37,8 +40,14 @@ public class UserController {
     }
 
     @PostMapping("/add-item")
-    public String addItem(Model model) {
-        model.addAttribute("item",  new Item());
+    public String addItem(@RequestParam("itemUrl") String itemUrl) {
+
+        urlHandler.parsePage(itemUrl);
+
+
+
+
+
         return "/user-pages/add-new-item";
     }
 
