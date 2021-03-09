@@ -1,6 +1,7 @@
 package com.bikeparsing.bikepartsapp.controller;
 
 import com.bikeparsing.bikepartsapp.entity.Item;
+import com.bikeparsing.bikepartsapp.entity.Option;
 import com.bikeparsing.bikepartsapp.entity.User;
 import com.bikeparsing.bikepartsapp.parse.strategy.UrlHandler;
 import com.bikeparsing.bikepartsapp.service.ProductService;
@@ -43,16 +44,22 @@ public class UserController {
     public String addItem(@RequestParam("itemUrl") String itemUrl,
                           Model model) {
         Item item = urlHandler.parsePage(itemUrl);
+
         model.addAttribute("myItem", item); // todo: rename back to 'item'
+        model.addAttribute("myOptions", item.getOptions());
+        model.addAttribute("selectedOption", item.getSelectedOption());
+
         return "/user-pages/choose-option";
 
     }
 
     @PostMapping("/save-item")
-    public String saveItem(Item item) {
+    public String saveItem(@ModelAttribute("myItem") Item item) {
 
         item.setUserId(getAuthUserId());
+        System.out.println(">>> Controller -> check item before saving: " + item);
         productService.save(item);
+
 
         return "redirect:/user/homepage";
     }
@@ -62,7 +69,7 @@ public class UserController {
                              Model model) {
         Item item = productService.getById(id);
         model.addAttribute("item", item);
-        return "/user-pages/item-form"; // todo: refactor name (to 'item-form', or something like that)
+        return "/user-pages/item-form";
     }
 
     @GetMapping("/delete-item")

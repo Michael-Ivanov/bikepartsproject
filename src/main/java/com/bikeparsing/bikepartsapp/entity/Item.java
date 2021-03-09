@@ -77,7 +77,7 @@ public class Item {
 
     public Option getOptionById(int id) { // todo: clear
         for (Option option : options) {
-            System.out.println("check option id: >>>" + option.getId());
+//            System.out.println("check option id: >>>" + option.getId());
             if (option.getId() == id) {
                 return option;
             }
@@ -91,7 +91,7 @@ public class Item {
 
     private void addOptions(List<Option> addOptions) {
         if (options == null) {
-            System.out.println("There was no List!!!");
+            System.out.println(">>> creating new options list");
             options = new ArrayList<>();
         }
         for (Option option : addOptions) {
@@ -149,6 +149,7 @@ public class Item {
                 ", date=" + date +
                 ", itemUrl='" + itemUrl + '\'' +
                 ", userId=" + userId +
+                ", selectedOption.id =" + selectedOption.getId() +
                 '}';
     }
 }

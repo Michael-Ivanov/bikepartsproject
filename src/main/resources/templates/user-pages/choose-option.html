@@ -31,8 +31,7 @@
         <input type="hidden" th:field="*{userId}">
 
 
-        <select th:field="*{selectedOptionId}" class="form-control">
-            <option value="0">Please select</option>
+        <select th:field="*{selectedOption.id}" class="form-control">
             <option class="form-control"
                     th:each="option : ${myItem.options}"
                     th:value="${option.id}"

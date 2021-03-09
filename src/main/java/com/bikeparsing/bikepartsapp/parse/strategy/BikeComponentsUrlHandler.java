@@ -52,7 +52,8 @@ public class BikeComponentsUrlHandler implements UrlHandler {
             ));
         }
         Item item = new Item(name , optionList, LocalDate.now(), url);
-        System.out.println(item);
+        item.setSelectedOption(optionList.get(0));
+        System.out.println(">>> UrlHandler -> item constructed: " + item);
         return item;
     }
 
@@ -71,7 +72,7 @@ public class BikeComponentsUrlHandler implements UrlHandler {
 
             return Jsoup
                     .connect(url)
-                    .proxy("206.189.189.81", 3128)
+//                    .proxy("191.101.39.27", 80)
                     .get();
 
         } catch (IOException e) {
