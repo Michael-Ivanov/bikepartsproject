@@ -24,23 +24,23 @@ public class ItemJPATest {
     @Test
     @Disabled
     public void shouldCreateItemAndOptions() {
-//        Option option1 = new Option("white", "available");
-//        Option option2 = new Option("black", "2 to 7 days");
-//        Option option3 = new Option("purple", "not available");
+        Option option1 = new Option("size s", "250 eur", "available");
+        Option option2 = new Option("size m", "270 eur","13 to 50 days");
+        Option option3 = new Option("size l", "300 eur","unavailable");
 
         List<Option> options = new ArrayList<>();
-//        options.add(option1);
-//        options.add(option2);
-//        options.add(option3);
+        options.add(option1);
+        options.add(option2);
+        options.add(option3);
 
         Item item = new Item(
-                "saddle",
+                "frame",
                 options,
                 LocalDate.now(),
-//                "30 Euros",
-                "www.saddles.com/bestsaddle/3"
+                "www.frames.com/frame-alu/3"
         );
         item.setUserId(1);
+        item.setSelectedOption(options.get(0));
 
         productService.save(item);
 
