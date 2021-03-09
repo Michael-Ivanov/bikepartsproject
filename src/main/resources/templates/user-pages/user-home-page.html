@@ -38,18 +38,20 @@
             <th>Date</th>
             <th>Name</th>
             <th>Option</th>
-            <th>Availability</th>
             <th>Price</th>
+            <th>Availability</th>
             <th>URL</th>
             <th>Action</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="item : ${items}">
-            <td th:text="${item.name}"></td>
             <td th:text="${item.date}"></td>
-            <td th:text="${item.price}"></td>
-            <td th:text="${item.availability}"></td>
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.getOptionById(item.getSelectedOption().id).option}"></td>
+
+            <td th:text="${item.getOptionById(item.getSelectedOption().id).price}"></td>
+            <td th:text="${item.getOptionById(item.getSelectedOption().id).availability}"></td>
             <td th:text="${item.itemUrl}"></td>
             <td><a th:href="@{/user/update-item(itemId = ${item.id})}"
                    class="btn btn-primary btn-sm">Update</a>
