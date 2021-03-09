@@ -21,8 +21,9 @@ public class Item {
             cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     private List<Option> options;
 
-    @Column(name = "selected_option")
-    private int selectedOptionId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "selected_option")
+    private Option selectedOption;
 
     @Column(name = "add_date")
     private LocalDate date;
@@ -36,7 +37,7 @@ public class Item {
     public Item() {
     }
 
-    public Item(String name, String availability, String itemUrl) {
+    public Item(String name, String itemUrl) {
         this.name = name;
         this.date = LocalDate.now();
         this.itemUrl = itemUrl;
@@ -49,7 +50,7 @@ public class Item {
         this.itemUrl = itemUrl;
     }
 
-    public Item(int id, String name, String availability) {
+    public Item(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -72,6 +73,16 @@ public class Item {
 
     public List<Option> getOptions() {
         return options;
+    }
+
+    public Option getOptionById(int id) { // todo: clear
+        for (Option option : options) {
+            System.out.println("check option id: >>>" + option.getId());
+            if (option.getId() == id) {
+                return option;
+            }
+        }
+        throw new RuntimeException("No option found. Id: " + id);
     }
 
     public void setOptions(List<Option> options) {
@@ -97,12 +108,12 @@ public class Item {
         option.setItem(this);
     }
 
-    public int getSelectedOptionId() {
-        return selectedOptionId;
+    public Option getSelectedOption() {
+        return selectedOption;
     }
 
-    public void setSelectedOptionId(int selectedOption) {
-        this.selectedOptionId = selectedOption;
+    public void setSelectedOption(Option selectedOption) {
+        this.selectedOption = selectedOption;
     }
 
     public LocalDate getDate() {
