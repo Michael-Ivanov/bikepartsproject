@@ -11,7 +11,9 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class BikeComponentsUrlHandler implements UrlHandler {
@@ -51,7 +53,7 @@ public class BikeComponentsUrlHandler implements UrlHandler {
         }
         Item item = new Item(name , optionList, LocalDate.now(), url);
         System.out.println(item);
-        return null;
+        return item;
     }
 
     private String trimText(String text) {
@@ -63,9 +65,17 @@ public class BikeComponentsUrlHandler implements UrlHandler {
 
     private Document getDocument(String url) {
         try {
-            return Jsoup.connect(url).get();
+
+            Map<String, String> headers = new HashMap<>();
+            headers.put("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101 Firefox/45.0");
+
+            return Jsoup
+                    .connect(url)
+                    .proxy("206.189.189.81", 3128)
+                    .get();
+
         } catch (IOException e) {
-            throw new RuntimeException("Cannot retrieve document.");
+            throw new RuntimeException("Cannot retrieve connection..." + e.getMessage());
         }
     }
 }
