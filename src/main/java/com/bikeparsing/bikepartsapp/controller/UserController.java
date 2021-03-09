@@ -40,9 +40,12 @@ public class UserController {
     }
 
     @PostMapping("/add-item")
-    public void addItem(@RequestParam("itemUrl") String itemUrl) {
+    public String addItem(@RequestParam("itemUrl") String itemUrl,
+                          Model model) {
         Item item = urlHandler.parsePage(itemUrl);
-        saveItem(item);
+        model.addAttribute("myItem", item); // todo: rename back to 'item'
+        return "/user-pages/choose-option";
+
     }
 
     @PostMapping("/save-item")
@@ -59,7 +62,7 @@ public class UserController {
                              Model model) {
         Item item = productService.getById(id);
         model.addAttribute("item", item);
-        return "/user-pages/add-new-item"; // todo: refactor name (to 'item-form', or something like that)
+        return "/user-pages/item-form"; // todo: refactor name (to 'item-form', or something like that)
     }
 
     @GetMapping("/delete-item")
