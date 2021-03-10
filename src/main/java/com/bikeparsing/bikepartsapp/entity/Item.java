@@ -17,8 +17,7 @@ public class Item {
     @Column(name = "item_name")
     private String name;
 
-    @OneToMany( fetch = FetchType.EAGER, mappedBy = "item",
-            cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "item", cascade = CascadeType.ALL)
     private List<Option> options;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -91,7 +90,7 @@ public class Item {
 
     private void addOptions(List<Option> addOptions) {
         if (options == null) {
-            System.out.println(">>> creating new options list");
+            System.out.println(">>> Item -> creating new options list");
             options = new ArrayList<>();
         }
         for (Option option : addOptions) {
@@ -114,6 +113,16 @@ public class Item {
 
     public void setSelectedOption(Option selectedOption) {
         this.selectedOption = selectedOption;
+    }
+
+    // todo: consider renaming too long method name
+    public Option getOptionByName(String name) {
+        for (Option option : options) {
+            if (option.getName().equals(name)) {
+                return option;
+            }
+        }
+        return options.get(0);
     }
 
     public LocalDate getDate() {
@@ -149,7 +158,7 @@ public class Item {
                 ", date=" + date +
                 ", itemUrl='" + itemUrl + '\'' +
                 ", userId=" + userId +
-                ", selectedOption.id =" + selectedOption.getId() +
+                ", selectedOption.id =" + (selectedOption == null ? 0 : selectedOption.getId()) +
                 '}';
     }
 }
