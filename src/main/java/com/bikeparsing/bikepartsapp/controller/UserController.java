@@ -55,8 +55,10 @@ public class UserController {
     public String saveItem(@RequestParam("optionName") String optionName,
                            @RequestParam("itemName") String itemName) {
 
+        System.out.println(">>> Controller -> check item: " + item);
         Option option = item.getOptionByName(optionName);
 
+        System.out.println(">>> Controller -> check option: " + option);
         item.setName(itemName);
         item.setUserId(getAuthUserId());
         item.setSelectedOption(option);
@@ -70,9 +72,9 @@ public class UserController {
     @GetMapping("/update-item")
     public String updateItem(@RequestParam("itemId") int id,
                              Model model) {
-        Item item = productService.getById(id);
+        item = productService.getById(id);
         model.addAttribute("item", item);
-        return "/user-pages/item-form";
+        return "/user-pages/choose-option";
     }
 
     @GetMapping("/delete-item")
