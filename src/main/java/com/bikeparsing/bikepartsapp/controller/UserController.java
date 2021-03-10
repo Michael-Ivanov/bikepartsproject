@@ -46,28 +46,23 @@ public class UserController {
     public String addItem(@RequestParam("itemUrl") String itemUrl,
                           Model model) {
         item = urlHandler.parsePage(itemUrl);
-
         model.addAttribute("item", item);
-        model.addAttribute("itemOptions", item.getOptions());
-        model.addAttribute("selectedOption", item.getSelectedOption());
 
         return "/user-pages/choose-option";
-
     }
 
     @PostMapping("/save-item")
-    public String saveItem(@RequestParam("optionName") String optionName) {
-
+    public String saveItem(@RequestParam("optionName") String optionName,
+                           @RequestParam("itemName") String itemName) {
 
         Option option = item.getOptionByName(optionName);
-//        System.out.println(">>> Controller -> selected option: " + option);
-//        System.out.println(">>> Controller -> option name: " + optionName);
 
+        item.setName(itemName);
         item.setUserId(getAuthUserId());
         item.setSelectedOption(option);
-        System.out.println(">>> Controller -> check item before saving: " + item);
-        productService.save(item);
 
+
+        productService.save(item);
 
         return "redirect:/user/homepage";
     }

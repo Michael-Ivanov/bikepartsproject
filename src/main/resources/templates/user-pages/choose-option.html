@@ -23,12 +23,16 @@
     <h3 class="mb-5">Select an option</h3>
 
     <form th:action="@{/user/save-item}"  method="POST">
-        <select name="optionName" class="form-control">
+        <label for="itemName" class="col-form-label">Product name: </label>
+        <input type="text" name="itemName" id="itemName" th:value="${item.name}" class="form-control">
+
+        <label for="optionName" class="col-form-label">Select option: </label>
+        <select name="optionName" id="optionName" class="form-control">
             <option class="form-control"
-                    th:each="option : ${itemOptions}"
+                    th:each="option : ${item.options}"
                     th:value="${option.name}"
                     th:text="${option.name} + ' | ' + ${option.price} + ' | ' + ${option.availability}"
-                    th:selected="${selectedOption.name}">
+                    th:selected="${item.selectedOption.name}">
             </option>
         </select>
         <br>
