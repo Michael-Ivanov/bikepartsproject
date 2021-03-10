@@ -48,7 +48,7 @@
         <tr th:each="item : ${items}">
             <td th:text="${item.date}"></td>
             <td th:text="${item.name}"></td>
-            <td th:text="${item.getOptionById(item.getSelectedOption().id).option}"></td>
+            <td th:text="${item.getOptionById(item.getSelectedOption().id).name}"></td>
 
             <td th:text="${item.getOptionById(item.getSelectedOption().id).price}"></td>
             <td th:text="${item.getOptionById(item.getSelectedOption().id).availability}"></td>

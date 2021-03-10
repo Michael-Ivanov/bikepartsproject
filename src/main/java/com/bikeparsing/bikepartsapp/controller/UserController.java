@@ -47,21 +47,21 @@ public class UserController {
                           Model model) {
         item = urlHandler.parsePage(itemUrl);
 
-        model.addAttribute("myItem", item); // todo: rename back to 'item'
-        model.addAttribute("myOptions", item.getOptions());
+        model.addAttribute("item", item);
+        model.addAttribute("itemOptions", item.getOptions());
         model.addAttribute("selectedOption", item.getSelectedOption());
 
         return "/user-pages/choose-option";
 
     }
 
-    @PostMapping("/save-item") // todo: need to pass item instance from addItem() to saveItem() somehow
+    @PostMapping("/save-item")
     public String saveItem(@RequestParam("optionName") String optionName) {
 
 
         Option option = item.getOptionByName(optionName);
-        System.out.println(">>> Controller -> selected option: " + option);
-        System.out.println(">>> Controller -> option name: " + optionName);
+//        System.out.println(">>> Controller -> selected option: " + option);
+//        System.out.println(">>> Controller -> option name: " + optionName);
 
         item.setUserId(getAuthUserId());
         item.setSelectedOption(option);

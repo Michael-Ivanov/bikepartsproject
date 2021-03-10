@@ -25,10 +25,10 @@
     <form th:action="@{/user/save-item}"  method="POST">
         <select name="optionName" class="form-control">
             <option class="form-control"
-                    th:each="option : ${myOptions}"
+                    th:each="option : ${itemOptions}"
                     th:value="${option.name}"
                     th:text="${option.name} + ' | ' + ${option.price} + ' | ' + ${option.availability}"
-                    th:selected="${selectedOption.id}">
+                    th:selected="${selectedOption.name}">
             </option>
         </select>
         <br>
