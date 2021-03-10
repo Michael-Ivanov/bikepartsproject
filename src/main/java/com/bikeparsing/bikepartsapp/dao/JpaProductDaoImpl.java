@@ -24,7 +24,7 @@ public class JpaProductDaoImpl implements ProductDAO {
     @Override
     public List<Item> getAllByUserId(int id) {
         TypedQuery<Item> query = entityManager.createQuery(
-                "from Item where userId=:theUserId",
+                "from Item where userId=:theUserId order by id",
                 Item.class);
         query.setParameter("theUserId", id);
         return query.getResultList();
