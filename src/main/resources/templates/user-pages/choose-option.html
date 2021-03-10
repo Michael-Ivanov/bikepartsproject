@@ -22,20 +22,13 @@
 <div class="container m-3">
     <h3 class="mb-5">Select an option</h3>
 
-    <form th:action="@{/user/save-item}" th:object="${myItem}" method="POST">
-
-        <input type="hidden" th:field="*{id}">
-        <input type="hidden" th:field="*{name}">
-        <input type="hidden" th:field="*{date}">
-        <input type="hidden" th:field="*{itemUrl}">
-        <input type="hidden" th:field="*{userId}">
-
-
-        <select th:field="*{selectedOption.id}" class="form-control">
+    <form th:action="@{/user/save-item}"  method="POST">
+        <select name="optionName" class="form-control">
             <option class="form-control"
-                    th:each="option : ${myItem.options}"
-                    th:value="${option.id}"
-                    th:text="${option.option} + ' ' + ${option.price} + ' ' + ${option.availability}">
+                    th:each="option : ${myOptions}"
+                    th:value="${option.name}"
+                    th:text="${option.name} + ' | ' + ${option.price} + ' | ' + ${option.availability}"
+                    th:selected="${selectedOption.id}">
             </option>
         </select>
         <br>

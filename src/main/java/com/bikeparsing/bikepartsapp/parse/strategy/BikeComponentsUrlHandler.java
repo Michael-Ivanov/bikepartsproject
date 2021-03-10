@@ -52,7 +52,7 @@ public class BikeComponentsUrlHandler implements UrlHandler {
             ));
         }
         Item item = new Item(name , optionList, LocalDate.now(), url);
-        item.setSelectedOption(optionList.get(0));
+        item.setSelectedOption(optionList.get(0));  // initial selection allows to populate options in <select> tag
         System.out.println(">>> UrlHandler -> item constructed: " + item);
         return item;
     }

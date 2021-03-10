@@ -24,6 +24,8 @@ public class UserController {
     private final UserService userService;
     private final UrlHandler urlHandler;
 
+    private Item item;
+
     @Autowired
     public UserController(ProductService productService, UserService userService, UrlHandler urlHandler) {
         this.productService = productService;
@@ -43,7 +45,7 @@ public class UserController {
     @PostMapping("/add-item")
     public String addItem(@RequestParam("itemUrl") String itemUrl,
                           Model model) {
-        Item item = urlHandler.parsePage(itemUrl);
+        item = urlHandler.parsePage(itemUrl);
 
         model.addAttribute("myItem", item); // todo: rename back to 'item'
         model.addAttribute("myOptions", item.getOptions());
@@ -53,10 +55,16 @@ public class UserController {
 
     }
 
-    @PostMapping("/save-item")
-    public String saveItem(@ModelAttribute("myItem") Item item) {
+    @PostMapping("/save-item") // todo: need to pass item instance from addItem() to saveItem() somehow
+    public String saveItem(@RequestParam("optionName") String optionName) {
+
+
+        Option option = item.getOptionByName(optionName);
+        System.out.println(">>> Controller -> selected option: " + option);
+        System.out.println(">>> Controller -> option name: " + optionName);
 
         item.setUserId(getAuthUserId());
+        item.setSelectedOption(option);
         System.out.println(">>> Controller -> check item before saving: " + item);
         productService.save(item);
 
