@@ -12,7 +12,7 @@ public class Option {
     private int id;
 
     @Column(name = "option")
-    private String option;
+    private String name;  // todo: refactor/rename to 'name'
 
     @Column(name = "price")
     private String price;
@@ -27,8 +27,8 @@ public class Option {
     public Option() {
     }
 
-    public Option(String option, String price, String availability) {
-        this.option = option;
+    public Option(String name, String price, String availability) {
+        this.name = name;
         this.price = price;
         this.availability = availability;
     }
@@ -41,12 +41,12 @@ public class Option {
         this.id = id;
     }
 
-    public String getOption() {
-        return option;
+    public String getName() {
+        return name;
     }
 
-    public void setOption(String option) {
-        this.option = option;
+    public void setName(String option) {
+        this.name = option;
     }
 
     public String getPrice() {
@@ -77,7 +77,7 @@ public class Option {
     public String toString() {
         return "Option{" +
                 "id=" + id +
-                ", option='" + option + '\'' +
+                ", option='" + name + '\'' +
                 ", price='" + price + '\'' +
                 ", availability='" + availability + '\'' +
                 '}';
