@@ -24,6 +24,8 @@
 <div class="container m-3">
     <h3 class="mb-5">User Home Page</h3>
 
+    <a th:href="@{/user/profile}" class="btn badge-danger">Profile</a>
+
     <form th:action="@{/user/add-item}" method="POST" class="row mb-3 align-items-end">
         <div class="col">
             <label for="itemUrl" class="col-form-label">Add product URL: </label>
@@ -34,8 +36,7 @@
         </div>
     </form>
 
-    <div >
-
+    <div>
         <table class="table table-bordered table-striped">
             <thead class="table-dark">
             <tr>

@@ -34,6 +34,13 @@ public class UserController {
         this.urlHandler = urlHandler;
     }
 
+    @GetMapping("/profile")
+    public String showProfile(Authentication auth, Model model) {
+        Object principal = auth.getPrincipal();
+        model.addAttribute("principal", principal);
+        return "/user-pages/profile";
+    }
+
     @GetMapping("/homepage")
     public String userAccount(Model model) {
 
