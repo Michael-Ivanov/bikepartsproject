@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user) {
-
+        dao.save(user);
     }
 
     @Override

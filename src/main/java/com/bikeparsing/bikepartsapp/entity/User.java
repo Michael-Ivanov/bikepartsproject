@@ -9,11 +9,11 @@ import java.util.List;
 @Table(name = "users")
 public class User {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Id
     @Column(name = "username")
     private String userName;
 
@@ -63,6 +63,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", username='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", enabled=" + enabled +
                 '}';

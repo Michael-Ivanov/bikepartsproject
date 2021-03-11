@@ -21,8 +21,33 @@
     <h3>User Profile</h3>
 
     <div>
-        Principal: <span th:text="${principal}"></span>
+        Principal: <span th:text="${user}"></span>
     </div>
+
+    <form th:action="@{/user/save-user}" th:object="${user}" method="POST">
+
+        <input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{enabled}">
+
+        <table class="table mt-3 w-50 ">
+            <tr>
+                <td>Username:</td>
+                <td>
+                    <input type="text" th:field="*{userName}" class="form-control">
+                </td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td>
+                    <input type="text" th:field="*{password}" class="form-control">
+                </td>
+            </tr>
+        </table>
+
+        <input type="submit" value="Save" class="btn btn-primary">
+
+    </form>
+
 
 </div>
 </body>

@@ -34,14 +34,6 @@ public class UserController {
         this.urlHandler = urlHandler;
     }
 
-    @GetMapping("/profile")
-    public String showProfile(Model model) {
-        User user = getAuthUser();
-        model.addAttribute("user", user);
-
-        return "/user-pages/user-profile";
-    }
-
     @GetMapping("/homepage")
     public String userAccount(Model model) {
 
@@ -50,6 +42,14 @@ public class UserController {
         model.addAttribute("items", items);
 
         return "/user-pages/user-home-page";
+    }
+
+    @GetMapping("/profile")
+    public String showProfile(Model model) {
+        User user = getAuthUser();
+        model.addAttribute("user", user);
+
+        return "/user-pages/user-profile";
     }
 
     @PostMapping("/add-item")
@@ -94,6 +94,15 @@ public class UserController {
         return "redirect:/user/homepage";
     }
 
+    @PostMapping("/save-user")
+    public String saveUser(User user) {
+        System.out.println("Controller: " + user);
+        userService.save(user);
+        return "redirect:/user/profile";
+        // todo: fix ->
+        // todo: trying to go back to the page where another authenticated user data used
+        // todo: we can update password, but not username
+    }
 
     private User getAuthUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
