@@ -1,6 +1,19 @@
+
+
 td {
-    max-width: 100px;
+    max-width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+td:hover {
+    overflow: visible;
+    background-color: aliceblue;
+    max-width: initial;
+    position: absolute;
+    animation: linear;
+}
+
+
+/* todo: add style for name, option, url columns - scrollable */
