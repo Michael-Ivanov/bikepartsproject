@@ -35,16 +35,18 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String showProfile(Authentication auth, Model model) {
-        Object principal = auth.getPrincipal();
-        model.addAttribute("principal", principal);
-        return "/user-pages/profile";
+    public String showProfile(Model model) {
+        User user = getAuthUser();
+        model.addAttribute("user", user);
+
+        return "/user-pages/user-profile";
     }
 
     @GetMapping("/homepage")
     public String userAccount(Model model) {
 
-        List<Item> items = productService.getAllByUserId(getAuthUserId());
+        int userId = getAuthUser().getId();
+        List<Item> items = productService.getAllByUserId(userId);
         model.addAttribute("items", items);
 
         return "/user-pages/user-home-page";
@@ -68,7 +70,8 @@ public class UserController {
 
         System.out.println(">>> Controller -> check option: " + option);
         item.setName(itemName);
-        item.setUserId(getAuthUserId());
+        int userId = getAuthUser().getId();
+        item.setUserId(userId);
         item.setSelectedOption(option);
 
 
@@ -92,12 +95,11 @@ public class UserController {
     }
 
 
-    private int getAuthUserId() {
+    private User getAuthUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String name = authentication.getName();
-            User user = userService.getByName(name);
-            return user.getId();
+            return userService.getByName(name);
         }
         throw new UserNotAuthenticatedException("User not authenticated");
     }
