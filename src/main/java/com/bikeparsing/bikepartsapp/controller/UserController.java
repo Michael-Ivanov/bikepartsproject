@@ -3,6 +3,7 @@ package com.bikeparsing.bikepartsapp.controller;
 import com.bikeparsing.bikepartsapp.entity.Item;
 import com.bikeparsing.bikepartsapp.entity.Option;
 import com.bikeparsing.bikepartsapp.entity.User;
+import com.bikeparsing.bikepartsapp.exception.UserNotAuthenticatedException;
 import com.bikeparsing.bikepartsapp.parse.strategy.UrlHandler;
 import com.bikeparsing.bikepartsapp.service.ProductService;
 import com.bikeparsing.bikepartsapp.service.UserService;
@@ -91,6 +92,6 @@ public class UserController {
             User user = userService.getByName(name);
             return user.getId();
         }
-        throw new RuntimeException("User not authenticated.");
+        throw new UserNotAuthenticatedException("User not authenticated");
     }
 }

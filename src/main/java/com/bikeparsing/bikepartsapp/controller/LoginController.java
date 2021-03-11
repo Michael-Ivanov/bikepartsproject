@@ -8,6 +8,11 @@ public class LoginController {
 
     @GetMapping("/home")
     public String home() {
-        return "home";
+        return "/home";
+    }
+
+    @GetMapping("/access-denied")
+    public String accessDenied() {
+        return "/access-denied";
     }
 }
