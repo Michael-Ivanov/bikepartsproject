@@ -18,7 +18,7 @@
 
     <form th:action="@{/logout}" method="post" class="row">
         <label for="logout" class="col-auto col-form-label">
-            You are logged as <span sec:authentication="name"></span>
+            You are logged as <span sec:authentication="name" class="alert alert-dark"></span>
         </label>
         <input type="submit" value="Logout" id="logout" class="btn btn-outline-primary">
     </form>
@@ -26,8 +26,9 @@
 </div>
 <div sec:authorize="isAnonymous()">
     <div class="row">
-        <p class="col-auto col-form-label">This page is not available for unauthorized users. Please log in:</p>
+        <p class="col-auto col-form-label">Hello, unknown user. Please log in or register:</p>
         <a th:href="@{/login}" class="btn btn-primary">Login</a>
+        <a th:href="@{/register}" class="btn btn-info ml-3">Register</a>
     </div>
 </div>
 <hr>
