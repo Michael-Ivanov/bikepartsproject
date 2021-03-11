@@ -18,7 +18,8 @@
     <div th:include="/user-pages/logged-user" class="container m-3 "></div>
 </header>
 <div class="container m-3">
-    <h4 class="alert alert-info">Sorry, you are not authorized to see this page. Please log in or register.</h4>
+    <h5 class="alert alert-info">Oops, something went wrong...</h5>
+    <h6 class="alert alert-secondary">Error message: <span th:text="${exception.getMessage()}"></span> </h6>
 
     <a th:href="@{/home}" class="btn btn-info">Back to homepage</a>
 </div>
