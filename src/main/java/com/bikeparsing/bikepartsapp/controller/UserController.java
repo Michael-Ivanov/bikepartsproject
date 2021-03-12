@@ -96,9 +96,9 @@ public class UserController {
     }
 
     @PostMapping("/save-user")
-    public String saveUser(User user) {
+    public String saveUser(@RequestParam("password") String password, User user) {
+        user.setPassword(password); // getting password as parameter - can't use th:field in view - not auto filling
         System.out.println("saveUser: " + user);
-
         userService.save(user);
         user.reAuthenticate();
 
