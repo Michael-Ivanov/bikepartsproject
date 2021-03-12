@@ -115,7 +115,6 @@ public class Item {
         this.selectedOption = selectedOption;
     }
 
-    // todo: consider renaming too long method name
     public Option getOptionByName(String name) {
         for (Option option : options) {
             if (option.getName().equals(name)) {

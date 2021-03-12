@@ -9,12 +9,15 @@ import com.bikeparsing.bikepartsapp.service.ProductService;
 import com.bikeparsing.bikepartsapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -24,6 +27,9 @@ public class UserController {
     private final ProductService productService;
     private final UserService userService;
     private final UrlHandler urlHandler;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     private Item item;
 
@@ -47,6 +53,7 @@ public class UserController {
     @GetMapping("/profile")
     public String showProfile(Model model) {
         User user = getAuthUser();
+        System.out.println("showProfile: " + user);
         model.addAttribute("user", user);
 
         return "/user-pages/user-profile";
@@ -74,15 +81,12 @@ public class UserController {
         item.setUserId(userId);
         item.setSelectedOption(option);
 
-
         productService.save(item);
-
         return "redirect:/user/homepage";
     }
 
     @GetMapping("/update-item")
-    public String updateItem(@RequestParam("itemId") int id,
-                             Model model) {
+    public String updateItem(@RequestParam("itemId") int id, Model model) {
         item = productService.getById(id);
         model.addAttribute("item", item);
         return "/user-pages/choose-option";
@@ -96,18 +100,29 @@ public class UserController {
 
     @PostMapping("/save-user")
     public String saveUser(User user) {
-        System.out.println("Controller: " + user);
+        System.out.println("saveUser: " + user);
+
         userService.save(user);
+
+        reAuthenticate(user);
+
         return "redirect:/user/profile";
-        // todo: fix ->
-        // todo: trying to go back to the page where another authenticated user data used
-        // todo: we can update password, but not username
+
+    }
+
+    private void reAuthenticate(User user) {
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
+        System.out.println("before setting authentication");
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        System.out.println("after setting authentication");
     }
 
     private User getAuthUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String name = authentication.getName();
+            System.out.println("getAuthUser: name = " + name);
             return userService.getByName(name);
         }
         throw new UserNotAuthenticatedException("User not authenticated");
