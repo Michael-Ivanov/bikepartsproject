@@ -1,9 +1,10 @@
 package com.bikeparsing.bikepartsapp.entity;
 
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -57,6 +58,12 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public void reAuthenticate() {
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken(userName, password);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     @Override

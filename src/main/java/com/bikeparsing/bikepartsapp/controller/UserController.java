@@ -9,15 +9,15 @@ import com.bikeparsing.bikepartsapp.service.ProductService;
 import com.bikeparsing.bikepartsapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -27,9 +27,6 @@ public class UserController {
     private final ProductService productService;
     private final UserService userService;
     private final UrlHandler urlHandler;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     private Item item;
 
@@ -103,19 +100,10 @@ public class UserController {
         System.out.println("saveUser: " + user);
 
         userService.save(user);
-
-        reAuthenticate(user);
+        user.reAuthenticate();
 
         return "redirect:/user/profile";
 
-    }
-
-    private void reAuthenticate(User user) {
-        Authentication authentication =
-                new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
-        System.out.println("before setting authentication");
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        System.out.println("after setting authentication");
     }
 
     private User getAuthUser() {
