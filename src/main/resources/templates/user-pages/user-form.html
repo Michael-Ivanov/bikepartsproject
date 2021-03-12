@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<form th:action="@{/user/save-user}" th:object="${user}" method="POST">
+
+    <input type="hidden" th:field="*{id}">
+    <input type="hidden" th:field="*{enabled}">
+
+    <table class="table mt-3 w-50 ">
+        <tr>
+            <td>Username:</td>
+            <td>
+                <input type="text" th:field="*{userName}" class="form-control">
+            </td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td>
+                <input type="password" th:name="password" th:value="${user.password}" class="form-control">
+            </td>
+        </tr>
+    </table>
+
+    <input type="submit" value="Save" class="btn btn-primary">
+
+</form>
+
+
+</body>
+</html>
