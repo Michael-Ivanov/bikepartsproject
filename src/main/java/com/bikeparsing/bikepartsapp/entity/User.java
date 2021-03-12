@@ -45,10 +45,16 @@ public class User {
     }
 
     public String getPassword() {
+        if (password.startsWith("{noop}")) {
+            return password.substring("{noop}".length());
+        }
         return password;
     }
-
+    // todo: consider getting prefix value out to .properties file instead of hardcoding
     public void setPassword(String password) {
+        if (!password.startsWith("{noop}")) {
+            password = "{noop}".concat(password);
+        }
         this.password = password;
     }
 
