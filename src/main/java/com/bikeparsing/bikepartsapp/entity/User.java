@@ -46,7 +46,7 @@ public class User {
 
     // todo: consider getting prefix value out to .properties file instead of hardcoding (for both getter and setter)
     public String getPassword() {
-        if (password.startsWith("{noop}")) {
+        if (password != null && password.startsWith("{noop}")) {
             return password.substring("{noop}".length());
         }
         return password;
