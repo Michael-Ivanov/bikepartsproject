@@ -19,4 +19,6 @@ public interface UserService {
     void deleteById(int id);
 
     List<Authority> getAuthoritiesByName(String userName);
+
+    User getAuthUser();
 }

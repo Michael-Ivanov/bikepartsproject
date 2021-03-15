@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +44,7 @@ public class UserController {
     @GetMapping("/homepage")
     public String userAccount(Model model) {
 
-        int userId = getAuthUser().getId();
+        int userId = userService.getAuthUser().getId();
         List<Item> items = productService.getAllByUserId(userId);
         model.addAttribute("items", items);
 
@@ -51,7 +53,7 @@ public class UserController {
 
     @GetMapping("/profile")
     public String showProfile(Model model) {
-        User user = getAuthUser();
+        User user = userService.getAuthUser();
 
         List<Authority> authList
                 = userService.getAuthoritiesByName(user.getUserName());
@@ -59,7 +61,6 @@ public class UserController {
         System.out.println("showProfile: " + user);
         model.addAttribute("authList", authList);
         model.addAttribute("user", user);
-        model.addAttribute("oldUserName", user.getUserName());
 
         return "/user-pages/user-profile";
     }
@@ -82,7 +83,7 @@ public class UserController {
 
         System.out.println(">>> Controller -> check option: " + option);
         item.setName(itemName);
-        int userId = getAuthUser().getId();
+        int userId = userService.getAuthUser().getId();
         item.setUserId(userId);
         item.setSelectedOption(option);
 
@@ -104,14 +105,19 @@ public class UserController {
     }
 
     @PostMapping("/save-user")
-    public String saveUser(User user, @RequestParam("oldUserName") String oldUserName) {
+    public String saveUser(User user) {
 
         System.out.println("saveUser got user: " + user);
-        System.out.println("saveUser oldUserName: " + oldUserName);
+        String authName;
+        try {
+             authName = userService.getAuthUser().getUserName();
+        } catch (UserNotAuthenticatedException e) {
+            authName = "";
+        }
+        System.out.println("saveUser authName: " + authName);
 
         // get user authorities from db
-        List<Authority> authorities = userService.getAuthoritiesByName(oldUserName);
-
+        List<Authority> authorities = userService.getAuthoritiesByName(authName);
         System.out.println("getAuthoritiesByName returns: " + authorities);
 
         // check if no authorities returned from db, set default
@@ -128,15 +134,7 @@ public class UserController {
         return "redirect:/user/profile";
     }
 
-    private User getAuthUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String name = authentication.getName();
-            System.out.println("getAuthUser: name = " + name);
-            return userService.getByName(name);
-        }
-        throw new UserNotAuthenticatedException("User not authenticated");
-    }
+
 
     // todo: consider refactoring using security User instead of our custom User
 }

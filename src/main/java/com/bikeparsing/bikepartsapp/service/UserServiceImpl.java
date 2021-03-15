@@ -4,19 +4,24 @@ import com.bikeparsing.bikepartsapp.dao.AuthorityRepositoryDAO;
 import com.bikeparsing.bikepartsapp.dao.UserRepositoryDAO;
 import com.bikeparsing.bikepartsapp.entity.Authority;
 import com.bikeparsing.bikepartsapp.entity.User;
+import com.bikeparsing.bikepartsapp.exception.UserNotAuthenticatedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Id;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepositoryDAO userRepositoryDAO;
+    private UserRepositoryDAO userRepository;
 
     @Autowired
-    private AuthorityRepositoryDAO authRepositoryDAO;
+    private AuthorityRepositoryDAO authRepository;
 
     @Override
     public List<User> getAll() {
@@ -30,15 +35,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getByName(String name) {
-        return userRepositoryDAO.findByUserName(name);
+        return userRepository.findByUserName(name);
     }
 
     @Override
     public void save(User user) {
         List<Authority> authorities = user.getAuthorities();
-        userRepositoryDAO.save(user);
+        userRepository.save(user);
         for (Authority authority : authorities) {
-            authRepositoryDAO.save(authority);
+            authRepository.save(authority);
         }
     }
 
@@ -49,6 +54,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Authority> getAuthoritiesByName(String userName) {
-        return authRepositoryDAO.getAllByUserName(userName);
+        return authRepository.getAllByUserName(userName);
+    }
+
+    @Override
+    public User getAuthUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            throw new UserNotAuthenticatedException("User not authenticated");
+        }
+        String name = authentication.getName();
+        System.out.println("getAuthUser: name = " + name);
+        return getByName(name); // todo: refactor -> getUserByName(name)
     }
 }
