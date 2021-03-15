@@ -8,15 +8,15 @@ import java.util.List;
 
 public interface UserService {
 
-    List<User> getAll();
+    List<User> getAllUsers();
 
-    User getById(int id);
+    User getUserById(int id);
 
-    User getByName(String name);
+    User getUserByName(String name);
 
     void save(User user);
 
-    void deleteById(int id);
+    void deleteUserById(int id);
 
     List<Authority> getAuthoritiesByName(String userName);
 

@@ -11,7 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Id;
 import java.util.List;
 
 @Service
@@ -24,17 +23,17 @@ public class UserServiceImpl implements UserService {
     private AuthorityRepositoryDAO authRepository;
 
     @Override
-    public List<User> getAll() {
+    public List<User> getAllUsers() {
         return null;
     }
 
     @Override
-    public User getById(int id) {
+    public User getUserById(int id) {
         return null;
     }
 
     @Override
-    public User getByName(String name) {
+    public User getUserByName(String name) {
         return userRepository.findByUserName(name);
     }
 
@@ -48,7 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteUserById(int id) {
 
     }
 
@@ -65,6 +64,6 @@ public class UserServiceImpl implements UserService {
         }
         String name = authentication.getName();
         System.out.println("getAuthUser: name = " + name);
-        return getByName(name); // todo: refactor -> getUserByName(name)
+        return getUserByName(name);
     }
 }
