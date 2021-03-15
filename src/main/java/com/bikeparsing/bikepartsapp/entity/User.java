@@ -5,6 +5,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -24,6 +26,8 @@ public class User {
     @Column(name = "enabled")
     private boolean enabled;
 
+    @Transient
+    private List<Authority> authorities;
 
     public User() {
     }
@@ -65,6 +69,17 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public List<Authority> getAuthorities() {
+        if (authorities == null) {
+            authorities = new ArrayList<>();
+        }
+        return authorities;
+    }
+
+    public void setAuthorities(List<Authority> authorities) {
+        this.authorities = authorities;
     }
 
     public void reAuthenticate() {
