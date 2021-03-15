@@ -1,5 +1,6 @@
 package com.bikeparsing.bikepartsapp.controller;
 
+import com.bikeparsing.bikepartsapp.entity.Authority;
 import com.bikeparsing.bikepartsapp.entity.Item;
 import com.bikeparsing.bikepartsapp.entity.Option;
 import com.bikeparsing.bikepartsapp.entity.User;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -50,7 +52,12 @@ public class UserController {
     @GetMapping("/profile")
     public String showProfile(Model model) {
         User user = getAuthUser();
+
+        List<Authority> authList
+                = userService.getAuthoritiesByName(user.getUserName());
+
         System.out.println("showProfile: " + user);
+        model.addAttribute("authList", authList);
         model.addAttribute("user", user);
 
         return "/user-pages/user-profile";
@@ -97,13 +104,20 @@ public class UserController {
 
     @PostMapping("/save-user")
     public String saveUser(@RequestParam("password") String password, User user) {
-        user.setPassword(password); // getting password as parameter - can't use th:field in view - not auto filling
+        user.setPassword(password); // getting password as parameter - can't use th:field in view - wont auto fill
         System.out.println("saveUser: " + user);
+        List<Authority> authorities = userService.getAuthoritiesByName(user.getUserName());
+        System.out.println("getAuthoritiesByName returns: " + authorities);
+        if (authorities == null || authorities.isEmpty()) {
+            authorities = new ArrayList<>();
+            authorities.add(new Authority(user.getUserName(), "ROLE_USER"));
+        }
+        user.setAuthorities(authorities);
+
         userService.save(user);
         user.reAuthenticate();
 
         return "redirect:/user/profile";
-
     }
 
     private User getAuthUser() {
@@ -115,4 +129,6 @@ public class UserController {
         }
         throw new UserNotAuthenticatedException("User not authenticated");
     }
+
+    // todo: consider refactoring using security User instead of our custom User
 }

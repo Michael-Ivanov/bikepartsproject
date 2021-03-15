@@ -1,10 +1,12 @@
 package com.bikeparsing.bikepartsapp.entity;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "authorities")
-public class Authority {
+public class Authority implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,12 +22,9 @@ public class Authority {
     public Authority() {
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public Authority(String userName, String authority) {
+        this.userName = userName;
+        this.authority = authority;
     }
 
     public String getUserName() {
@@ -42,5 +41,13 @@ public class Authority {
 
     public void setAuthority(String authority) {
         this.authority = authority;
+    }
+
+    @Override
+    public String toString() {
+        return "Authority{" +
+                "userName='" + userName + '\'' +
+                ", authority='" + authority + '\'' +
+                '}';
     }
 }

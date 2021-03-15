@@ -20,6 +20,10 @@
 <div class="container m-3">
     <h3>User Profile</h3>
 
+    <div>
+        Authorities: <span th:text="${authList}"></span>
+    </div>
+
     <div th:include="/user-pages/user-form"></div>
 
 </div>

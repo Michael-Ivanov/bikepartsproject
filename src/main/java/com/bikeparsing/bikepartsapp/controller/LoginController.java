@@ -20,7 +20,12 @@ public class LoginController {
 
     @GetMapping("/register")
     public String register(Model model) {
+        User newUser = new User();
+
         model.addAttribute("user", new User());
+
+        // todo: proceed with refactoring /register-form. Add new 'ROLE-USER' authority after constructing new user
+
         return "/register-form";
     }
 }
