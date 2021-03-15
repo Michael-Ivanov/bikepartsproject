@@ -59,6 +59,7 @@ public class UserController {
         System.out.println("showProfile: " + user);
         model.addAttribute("authList", authList);
         model.addAttribute("user", user);
+        model.addAttribute("oldUserName", user.getUserName());
 
         return "/user-pages/user-profile";
     }
@@ -103,17 +104,24 @@ public class UserController {
     }
 
     @PostMapping("/save-user")
-    public String saveUser(@RequestParam("password") String password, User user) {
-        user.setPassword(password); // getting password as parameter - can't use th:field in view - wont auto fill
-        System.out.println("saveUser: " + user);
-        List<Authority> authorities = userService.getAuthoritiesByName(user.getUserName());
+    public String saveUser(User user, @RequestParam("oldUserName") String oldUserName) {
+
+        System.out.println("saveUser got user: " + user);
+        System.out.println("saveUser oldUserName: " + oldUserName);
+
+        // get user authorities from db
+        List<Authority> authorities = userService.getAuthoritiesByName(oldUserName);
+
         System.out.println("getAuthoritiesByName returns: " + authorities);
+
+        // check if no authorities returned from db, set default
         if (authorities == null || authorities.isEmpty()) {
             authorities = new ArrayList<>();
             authorities.add(new Authority(user.getUserName(), "ROLE_USER"));
         }
         user.setAuthorities(authorities);
 
+        // save user(and his authorities)
         userService.save(user);
         user.reAuthenticate();
 

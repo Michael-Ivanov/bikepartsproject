@@ -7,12 +7,13 @@
 
     <input type="hidden" th:field="*{id}">
     <input type="hidden" th:field="*{enabled}">
+    <input type="hidden" th:name="oldUserName" th:value="${oldUserName}">
 
     <table class="table mt-3 w-50 ">
         <tr>
             <td>Username:</td>
             <td>
-                <input type="text" th:field="*{userName}" class="form-control">
+                <input type="text" th:name="userName" th:value="${user.userName}" class="form-control">
             </td>
         </tr>
         <tr>
